@@ -4,7 +4,7 @@ from coding.models import *
 zones = Zone.objects.all()
 
 def Home(request):
-    return render(request, 'home.html', {'zones': zones})
+    return render(request, 'index1.html', {'zones': zones})
 
 def AreaView(request, id):
     areas = Area.objects.filter(zone=id)
