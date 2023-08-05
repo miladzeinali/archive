@@ -1,121 +1,55 @@
-/*----------------genealogy-scroll----------*/
-
-.genealogy-scroll::-webkit-scrollbar {
-    width: 5px;
-    height: 8px;
-}
-.genealogy-scroll::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: #e4e4e4;
-}
-.genealogy-scroll::-webkit-scrollbar-thumb {
-    background: #212121;
-    border-radius: 10px;
-    transition: 0.5s;
-}
-.genealogy-scroll::-webkit-scrollbar-thumb:hover {
-    background: #d5b14c;
-    transition: 0.5s;
+#chart-container {
+  font-family: Arial;
+  height: 420px;
+  border: 2px dashed #aaa;
+  border-radius: 5px;
+  overflow: auto;
+  text-align: center;
 }
 
-
-/*----------------genealogy-tree----------*/
-.genealogy-body{
-    white-space: nowrap;
-    overflow-y: hidden;
-    padding: 50px;
-    min-height: 500px;
-    padding-top: 10px;
-    text-align: center;
+.orgchart {
+  background: #fff; 
 }
-.genealogy-tree{
-  display: inline-block;
+.orgchart td.left, .orgchart td.right, .orgchart td.top {
+  border-color: #aaa;
 }
-.genealogy-tree ul {
-    padding-top: 20px; 
-    position: relative;
-    padding-left: 0px;
-    display: flex;
-    justify-content: center;
+.orgchart td>.down {
+  background-color: #aaa;
 }
-.genealogy-tree li {
-    float: left; text-align: center;
-    list-style-type: none;
-    position: relative;
-    padding: 20px 5px 0 5px;
+.orgchart .middle-level .title {
+  background-color: #006699;
 }
-.genealogy-tree li::before, .genealogy-tree li::after{
-    content: '';
-    position: absolute; 
-  top: 0; 
-  right: 50%;
-    border-top: 2px solid #ccc;
-    width: 50%; 
-  height: 18px;
+.orgchart .middle-level .content {
+  border-color: #006699;
 }
-.genealogy-tree li::after{
-    right: auto; left: 50%;
-    border-left: 2px solid #ccc;
+.orgchart .product-dept .title {
+  background-color: #009933;
 }
-.genealogy-tree li:only-child::after, .genealogy-tree li:only-child::before {
-    display: none;
+.orgchart .product-dept .content {
+  border-color: #009933;
 }
-.genealogy-tree li:only-child{ 
-    padding-top: 0;
+.orgchart .rd-dept .title {
+  background-color: #993366;
 }
-.genealogy-tree li:first-child::before, .genealogy-tree li:last-child::after{
-    border: 0 none;
+.orgchart .rd-dept .content {
+  border-color: #993366;
 }
-.genealogy-tree li:last-child::before{
-    border-right: 2px solid #ccc;
-    border-radius: 0 5px 0 0;
-    -webkit-border-radius: 0 5px 0 0;
-    -moz-border-radius: 0 5px 0 0;
+.orgchart .pipeline1 .title {
+  background-color: #996633;
 }
-.genealogy-tree li:first-child::after{
-    border-radius: 5px 0 0 0;
-    -webkit-border-radius: 5px 0 0 0;
-    -moz-border-radius: 5px 0 0 0;
+.orgchart .pipeline1 .content {
+  border-color: #996633;
 }
-.genealogy-tree ul ul::before{
-    content: '';
-    position: absolute; top: 0; left: 50%;
-    border-left: 2px solid #ccc;
-    width: 0; height: 20px;
+.orgchart .frontend1 .title {
+  background-color: #cc0066;
 }
-.genealogy-tree li a{
-    text-decoration: none;
-    color: #666;
-    font-family: arial, verdana, tahoma;
-    font-size: 11px;
-    display: inline-block;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
+.orgchart .frontend1 .content {
+  border-color: #cc0066;
 }
 
-.genealogy-tree li a:hover+ul li::after, 
-.genealogy-tree li a:hover+ul li::before, 
-.genealogy-tree li a:hover+ul::before, 
-.genealogy-tree li a:hover+ul ul::before{
-    border-color:  #fbba00;
-}
-
-/*--------------memeber-card-design----------*/
-.member-view-box{
-    padding:0px 20px;
-    text-align: center;
-    border-radius: 4px;
-    position: relative;
-}
-.member-image{
-    width: 60px;
-    position: relative;
-}
-.member-image img{
-    width: 60px;
-    height: 60px;
-    border-radius: 6px;
-  background-color :#000;
-  z-index: 1;
+#github-link {
+  position: fixed;
+  top: 0px;
+  right: 10px;
+  font-size: 3em;
 }
