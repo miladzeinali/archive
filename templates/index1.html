@@ -3,17 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>Title</title>
-</head>
-<body>
-<div id="chart-container"></div>
-<a id="github-link" href="https://github.com/dabeng/OrgChart" target="_blank"><i class="fa fa-github-square"></i></a>
-=======
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index1</title>
-    {#        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.rtl.min.css' %}" />#}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
 </head>
 <body>
 <div class="body genealogy-body genealogy-scroll">
@@ -30,15 +20,15 @@
                         </div>
                     </div>
                 </a>
-                    <ul class="active">
-                        {% for zone in zones %}
+                <ul class="active">
+                    {% for zone in zones %}
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="member-view-box">
                                     <div class="member-image">
                                         {#                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg" alt="Member">#}
                                         <div class="member-details">
-                                            <h3>{{ zone.zone}}</h3>
+                                            <h3>{{ zone.zone }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -252,8 +242,8 @@
                                 </li>
                             </ul>
                         </li>
-                        {% endfor %}
-                    </ul>
+                    {% endfor %}
+                </ul>
             </li>
         </ul>
     </div>
@@ -263,6 +253,5 @@
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
->>>>>>> ff9566d (Fuck)
 </body>
 </html>
