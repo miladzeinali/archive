@@ -6,6 +6,14 @@ zones = Zone.objects.all()
 def Home(request):
     return render(request, 'index1.html', {'zones': zones})
 
+def CategoryView(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories,
+    }
+    print(categories)
+    return render(request, 'index1.html', context)
+
 def AreaView(request, id):
     areas = Area.objects.filter(zone=id)
     context = {
