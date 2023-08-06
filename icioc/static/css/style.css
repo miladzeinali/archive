@@ -126,5 +126,5 @@ body {
 .member {
     border: 1px solid #000;
     border-radius: 6px;
-    padding: 10px;
+    /* padding: 10px; */
 }

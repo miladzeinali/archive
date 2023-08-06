@@ -18,15 +18,12 @@
                         <div class="member">
                             <a href="javascript:void(0);">
                                 <div class="member-view-box">
-                                    <div class="member-image">
-                                        
-                                        <div class="member-details d-flex ">
-                                            <h3>{{ node.name }}</h3>
+                                        <div class="member-details ">
+                                            {{ node.name }}
                                             {% if not node.is_leaf_node %}
-                                             <button class="btn">+</button>
+                                             <button class="btn" style="font-size: 20px;">+</button>
                                              {% endif %}
                                         </div>
-                                    </div>
                                     </div>
                                     </a>
                         </div>
