@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load mptt_tags %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+
+</head>
+
+<body>
+    <div id="fontSizeWrapper">
+        <label for="fontSize">Font size</label>
+        <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5" />
+      </div>
+
+      <ul class="tree js-treeview">
+        {% recursetree categories %}
+            <li>
+          <input type="checkbox" checked="checked" id="{{node.id}}" />
+          <label class="tree_label" for="{{node.id}}">{{node.name}}</label>
+          <div class="treeview__level-btns">
+            <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
+            <div class="btn btn-default btn-sm level-remove"><span class="fa fa-trash text-danger"></span></div>
+            <div class="btn btn-default btn-sm level-same"><span>Add Same Level</span></div>
+            <div class="btn btn-default btn-sm level-sub"><span>Add Sub Level</span></div>
+          </div>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+    
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<!-- Boostrap Js  -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/index2.js' %}"></script>
+</body>
