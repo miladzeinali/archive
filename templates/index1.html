@@ -14,7 +14,6 @@
 
 </head>
 <body>
-<<<<<<< HEAD
 <div class="body genealogy-body genealogy-scroll">
     <div class="genealogy-tree">
         <ul class="root">
@@ -45,37 +44,6 @@
     </div>
 </div>
 
-=======
-    <div class="body genealogy-body genealogy-scroll">
-        <div class="genealogy-tree">
-            <ul class="root">
-                {% recursetree categories %}
-                    <li style="cursor: pointer;">
-                        <div class="member">
-                            <a href="javascript:void(0);">
-                                <div class="member-view-box">
-                                        <div class="member-details ">
-                                            {{ node.name }}
-                                            {% if not node.is_leaf_node %}
-                                             <button class="btn" style="font-size: 20px;">+</button>
-                                             {% endif %}
-                                        </div>
-                                    </div>
-                                    </a>
-                        </div>
-                       
-                        {% if not node.is_leaf_node %}
-                            <ul class="children active">
-                                {{ children }}
-                            </ul>
-                        {% endif %}
-                    </li>
-                {% endrecursetree %}
-            </ul>
-        </div>
-    </div>
-   
->>>>>>> daa5a4f8069744287424b923476ababc438a5c3a
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <!-- Boostrap Js  -->
