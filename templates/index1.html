@@ -4,30 +4,43 @@
 {% load mptt_tags %}
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-=======
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
->>>>>>> 4eb8ef9 (add link tag for style.css ---sadegh)
 </head>
 <body>
-    <div class="body genealogy-body genealogy-scroll">
-        <div class="genealogy-tree">
-            <ul class="root">
-                {% recursetree categories %}
-                    <li style="cursor: pointer;">
-                        {{ node.name }}
-                        {% if not node.is_leaf_node %}
-                            <ul class="children">
-                                {{ children }}
-                            </ul>
-                        {% endif %}
-                    </li>
-                {% endrecursetree %}
-            </ul>
-        </div>
+<div class="body genealogy-body genealogy-scroll">
+    <div class="genealogy-tree">
+        <ul class="root">
+            {% recursetree categories %}
+                <li style="cursor: pointer;">
+                    <div class="member">
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image">
+                                    <div class="member-details d-flex">
+                                        <h3 style="padding: 5px">{{ node.name }}</h3>
+                                        {% if not node.is_leaf_node and node.type == 'assem' %}
+                                            <button class="btn btn-primary btn-sm">+</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
     </div>
-   
+</div>
+
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <!-- Boostrap Js  -->

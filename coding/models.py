@@ -18,7 +18,11 @@ class Category(MPTTModel):
     slug = models.SlugField(verbose_name=_("Category safe Url"),max_length=255,unique=True)
     parent = TreeForeignKey("self",on_delete=models.CASCADE, null=True,blank=True,related_name="children")
     is_active = models.BooleanField(default=True)
-
+    type_choice = (
+        ('assem','assem'),
+        ('part','part'),
+    )
+    type=models.CharField(max_length=10,default='assem')
     class MPTTMeta:
         order_insertaion_by = ["name"]
 
