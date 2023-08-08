@@ -4,14 +4,11 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> daa5a4f8069744287424b923476ababc438a5c3a
 .genealogy-scroll::-webkit-scrollbar {
     width: 5px;
     height: 8px;
 }
+
 
 .genealogy-scroll::-webkit-scrollbar-track {
     border-radius: 10px;
@@ -114,11 +111,7 @@ body {
 .genealogy-tree li button {
     text-decoration: none;
     color: #242323;
-<<<<<<< HEAD
-    font-family: arial;
-=======
     font-family: arial, verdana, tahoma;
->>>>>>> daa5a4f8069744287424b923476ababc438a5c3a
     font-size: 20px;
     display: inline-block;
     border-radius: 5px;
@@ -134,8 +127,8 @@ body {
 }
 
 /*--------------memeber-card-design----------*/
-.member-view-box {
-    padding: 0px 20px;
+.member-view-box{
+    padding:0px 20px;
     text-align: center;
     border-radius: 4px;
     position: center;
@@ -153,19 +146,10 @@ body {
     background-color: #000;
     z-index: 1;
 }
-<<<<<<< HEAD
-
 .member {
-    /*border: 1px solid #bd1a1a;*/
+    display: flex; 
+    justify-content:center;
     border-radius: 6px;
     padding: 3px;
     align-content: center;
 }
-
-=======
-.member {
-    border: 1px solid #000;
-    border-radius: 6px;
-    /* padding: 10px; */
-}
->>>>>>> daa5a4f8069744287424b923476ababc438a5c3a

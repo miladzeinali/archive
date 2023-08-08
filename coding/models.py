@@ -14,15 +14,19 @@ class Category(MPTTModel):
         max_length=255,
         unique=True,
     )
-
     slug = models.SlugField(verbose_name=_("Category safe Url"),max_length=255,unique=True)
     parent = TreeForeignKey("self",on_delete=models.CASCADE, null=True,blank=True,related_name="children")
     is_active = models.BooleanField(default=True)
     type_choice = (
-        ('assem','assem'),
-        ('part','part'),
+        ('Assem','Assem'),
+        ('Part','Part'),
+        ('Zone','Zone'),
+        ('Area','Area'),
+        ('ME','ME'),
+        ('MED','MED'),
+        ('MEDM','MEDM'),
     )
-    type=models.CharField(max_length=10,default='assem')
+    type=models.CharField(choices=type_choice,max_length=10,default='assem')
     class MPTTMeta:
         order_insertaion_by = ["name"]
 

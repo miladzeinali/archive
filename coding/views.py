@@ -11,14 +11,7 @@ def CategoryView(request):
     context = {
         'categories': categories,
     }
-    return render(request, 'index1.html', context)
-
-def CategoryView(request):
-    categories = Category.objects.all()
-    context = {
-        'categories': categories,
-    }
-    return render(request, 'index1.html', context)
+    return render(request, 'index2.html', context)
 
 def AreaView(request, id):
     areas = Area.objects.filter(zone=id)
@@ -43,3 +36,9 @@ def ME(request, id):
     }
     return render(request,'home.html',context)
 
+def AddSameLevel(request,id):
+    node = Category.objects.get(id=id)
+    parent = node.parent
+    print(node)
+    newnode = Category.objects.create(name=node.id,slug=node.id,parent=parent)
+    print(newnode)
