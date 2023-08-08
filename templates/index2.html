@@ -29,7 +29,7 @@
 <ul class="tree js-treeview">
     {% recursetree categories %}
         <li>
-            <input type="checkbox" id="{{ node.id }}"/>
+            <input type="checkbox" checked id="{{ node.id }}"/>
             <label class="tree_label" for="{{ node.id }}">{{ node.name }}</label>
             {% if node.type == 'Assem' or node.type == 'Part' or node.type == 'ME' %}
                 <div class="treeview__level-btns">
@@ -37,10 +37,10 @@
                     <div class="btn btn-default btn-sm level-remove"><span class="fa fa-trash text-danger"></span></div>
                     {% if node.type == 'Assem' or node.type == 'Part' %}
                         <div class="btn btn-default btn-sm level-same"><a
-                                href="{% url 'coding:addsamelevel' node.id %}">Add
+                                href="{% url 'coding:addsamelevel' node.id %}" style="text-decoration: none">Add
                             Same Level</a></div>
                     {% endif %}
-                    <div class="btn btn-default btn-sm level-sub"><a href="{% url 'coding:addsamelevel' node.id %}">Add
+                    <div class="btn btn-default btn-sm level-sub"><a style="text-decoration: none" href="{% url 'coding:addsamelevel' node.id %}">Add
                         Sub Level</a></div>
                 </div>
             {% endif %}

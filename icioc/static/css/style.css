@@ -1,6 +1,7 @@
 /*----------------genealogy-scroll----------*/
 body {
-    background-image: url('../image/wallpaper2.png');
+    /*background-image: url('../image/wallpaper2.png');*/
+    background: #2195f2;
     background-repeat: no-repeat;
     background-size: cover;
 }

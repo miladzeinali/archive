@@ -38,7 +38,5 @@ def ME(request, id):
 
 def AddSameLevel(request,id):
     node = Category.objects.get(id=id)
-    parent = node.parent
-    print(parent.type)
-
+    parent = node.parent.type
 
