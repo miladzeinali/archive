@@ -18,7 +18,6 @@ def CategoryView(request):
     context = {
         'categories': categories,
     }
-    print(categories)
     return render(request, 'index1.html', context)
 
 def AreaView(request, id):
