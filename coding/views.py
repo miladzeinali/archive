@@ -39,6 +39,6 @@ def ME(request, id):
 def AddSameLevel(request,id):
     node = Category.objects.get(id=id)
     parent = node.parent
-    print(node)
-    newnode = Category.objects.create(name=node.id,slug=node.id,parent=parent)
-    print(newnode)
+    print(parent.type)
+
+
