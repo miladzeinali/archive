@@ -12,27 +12,26 @@ class Category(MPTTModel):
         verbose_name=_("Category Name"),
         help_text=_("Required and unique"),
         max_length=255,
-        unique=True,
     )
-    slug = models.SlugField(verbose_name=_("Category safe Url"), max_length=255, unique=True)
+    slug = models.SlugField(verbose_name=_("Category safe Url"), max_length=255)
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
     is_active = models.BooleanField(default=True)
     type_choice = (
-        (1, 'Zone'),
-        (2, 'Area'),
-        (3, 'ME'),
-        (4, 'MED'),
-        (5, 'MEDM'),
-        (6, 'Part'),
+        ('Zone', 'Zone'),
+        ('Area', 'Area'),
+        ('ME', 'ME'),
+        ('MED', 'MED'),
+        ('MEDM', 'MEDM'),
+        ('Part', 'Part'),
     )
     type = models.CharField(choices=type_choice, max_length=10, default='assem')
 
     class MPTTMeta:
-        order_insertaion_by = ["name"]
+        order_insertaion_by = ['name']
 
-    class Meta:
-        verbose_name = _("Category")
-        verbose_name_plural = _("Categories")
+    # class Meta:
+    #     verbose_name = _("Category")
+    #     verbose_name_plural = _("Categories")
 
     def get_absolute_url(self):
         return reverse("store:category_list", args=[self.slug])

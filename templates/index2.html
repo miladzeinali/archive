@@ -10,12 +10,15 @@
 
     <link rel="stylesheet" href="{% static 'css/index2.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'js/main.js' %}">
 
 </head>
 
 <body>
 <div class="topnav">
     <a class="active" href="#home">I3CH CODING SYSTEM</a>
+    <a href="#home">Your are here:</a>
+    <a class="active" id="showlocation">I3CH CODING SYSTEM</a>
     <a>
         <div id="fontSizeWrapper">
             <label for="fontSize">Font size</label>
@@ -24,24 +27,29 @@
     </a>
     <input type="text" placeholder="search...">
 </div>
-
-
 <ul class="tree js-treeview">
     {% recursetree categories %}
         <li>
             <input type="checkbox" checked id="{{ node.id }}"/>
-            <label class="tree_label" for="{{ node.id }}">{{ node.name }}</label>
-            {% if node.type == 'Assem' or node.type == 'Part' or node.type == 'ME' %}
+            <label class="tree_label" for="{{ node.id }}" onclick="mylocation()"
+            >{{ node.parent }}-{{ node.name }}</label>
+            {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                 <div class="treeview__level-btns">
-                    <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
-                    <div class="btn btn-default btn-sm level-remove"><span class="fa fa-trash text-danger"></span></div>
-                    {% if node.type == 'Assem' or node.type == 'Part' %}
-                        <div class="btn btn-default btn-sm level-same"><a
-                                href="{% url 'coding:addsamelevel' node.id %}" style="text-decoration: none">Add
-                            Same Level</a></div>
+                    {% if  node.type != 'Part' %}
+                        <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
+                        <div class="btn btn-default btn-sm level-remove"><span class="fa fa-trash text-danger"></span>
+                        </div>
+                        <div class="btn btn-default btn-sm level-sub"><a style="text-decoration: none"
+                                                                         href="{% url 'coding:addsamelevel' node.id %}">Add
+                            Sub Level</a></div>
+
+
+                    {% else %}
+                        <div class="btn btn-default btn-sm"><span class="fa fa-wpforms" onclick="myFunction()"></span>
+                        </div></a></div>
+                        <div id="snackbar">{{ node.name }}</div>
                     {% endif %}
-                    <div class="btn btn-default btn-sm level-sub"><a style="text-decoration: none" href="{% url 'coding:addsamelevel' node.id %}">Add
-                        Sub Level</a></div>
+
                 </div>
             {% endif %}
             {% if not node.is_leaf_node %}
@@ -53,8 +61,26 @@
     {% endrecursetree %}
 </ul>
 
+<script>
+    function myFunction() {
+        let x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 1000);
+    }
+</script>
+
+<script>
+    function mylocation() {
+        var loc = document.getElementById('location');
+        console.log(loc);
+    }
+</script>
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
+
+
 <!-- Boostrap Js  -->
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
