@@ -104,5 +104,4 @@ $( document ).ready(function() {
           $(this).closest("[data-level]").toggleClass("selected");
         }); 
       });
-      
 });

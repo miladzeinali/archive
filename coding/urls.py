@@ -3,8 +3,7 @@ from .views import *
 
 app_name = 'coding'
 urlpatterns = [
-    path('',Home,name='home'),
     path('category',CategoryView,name='category'),
-    path('area/<int:id>/',AreaView,name='area'),
-    path('MES/<int:id>/',ME,name='mes'),
+    path('samelevel/<int:id>/',AddSameLevel,name='addsamelevel'),
+    path('get_parent_node/',get_parent_node,name='get-parent-node'),
 ]

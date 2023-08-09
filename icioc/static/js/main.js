@@ -9,4 +9,3 @@ $(function () {
         e.stopPropagation();
     });
 });
-
