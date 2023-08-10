@@ -5,7 +5,27 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-
+@font-face {
+    font-family: "iransans";
+    src: url("../fonts/IRANSansWeb_Light.woff2") format("woff2");
+    src: url("../fonts/IRANSansWeb_Light.woff") format("woff");
+  }
+  
+  @font-face {
+    font-family: "dana";
+    src: url("../fonts/dana-fanum-regular.woff2") format("woff2");
+    src: url("../fonts/dana-fanum-regular.woff") format("woff");
+  }
+  h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+div {
+    font-family: iransans;
+}
 .genealogy-scroll::-webkit-scrollbar {
     width: 5px;
     height: 8px;
@@ -258,4 +278,7 @@ body {
 @keyframes fadeout {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
+}
+.modal .modal-dialog{
+    max-width: 800px;
 }

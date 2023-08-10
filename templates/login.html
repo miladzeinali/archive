@@ -1,0 +1,60 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I3CH ACS</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'js/main.js' %}">
+    <style>
+
+        .content-account {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-lg-6 col-md-6 col-xs-12 mx-auto card my-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <h3>ARCHIVE AND CODING SYSTEM</h3>
+                </div><br/>
+                <form action="{% url 'account:login' %}">
+                    {% csrf_token %}
+                    <div class="content-account">
+                        <div class="form-group">
+                            <label for="email-phone" class="control-label font-weight-bold">شماره پرسنلی</label>
+                            <input type="email" id="email-phone" class="form-control" name="username" placeholder="icioc id code">
+                        </div><br/>
+                        <div class="form-group">
+                            <label for="password" class="control-label font-weight-bold">رمز عبور</label>
+                            <input type="password" id="password" class="form-control" name="password" placeholder="password">
+                        </div>
+                        <div class="d-grid gap-2  mx-auto" style="padding: 20px">
+                            <button type="submit" class="btn btn-primary ">ورود به سامانه</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+
+<!-- Boostrap Js  -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/index2.js' %}"></script>
+
+
+</body>
+</html>
