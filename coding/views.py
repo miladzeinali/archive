@@ -14,6 +14,7 @@ def CategoryView(request):
     else:
         return redirect('account:login')
 
+
 def AddSameLevel(request, id):
     node = Category.objects.get(id=id)
     child = node.get_children().last()
@@ -51,10 +52,10 @@ def get_parent_node(request):
     me = node.parent.parent.parent.name
     med = node.parent.parent.name
     medm = node.parent.name
-    sum = int(med)+int(medm)+int(part)
-    if len(str(sum))<=5:
+    sum = int(med) + int(medm) + int(part)
+    if len(str(sum)) <= 5:
         sum = f'0{sum}'
     context = {'part': part, 'zone': zone, 'area': area,
                'me': me, 'med': med,
-               'medm': medm,'sum':sum,'father':father}
+               'medm': medm, 'sum': sum, 'father': father}
     return JsonResponse(context)

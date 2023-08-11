@@ -27,7 +27,7 @@
     <ul class="tree js-treeview">
         {% recursetree categories %}
             <li>
-                <input type="checkbox" id="{{ node.id }}"/>
+                <input type="checkbox" {% if  not node.is_active  %} checked {% endif %}  id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()"
                 >{{ node.name }}</label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
