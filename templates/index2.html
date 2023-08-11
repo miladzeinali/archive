@@ -3,21 +3,19 @@
 {% load static %}
 {% load mptt_tags %}
 {% if user.is_authenticated %}
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/index2.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'js/main.js' %}">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'js/main.js' %}">
+    </head>
 
-<body>
+    <body>
     <div class="topnav">
-        <a class="active" href="#home">I3CH CODING SYSTEM</a>
-        <a href="#home">Your are here:</a>
-        <a class="active" id="showlocation">I3CH CODING SYSTEM</a>
+        <a class="active">I3CH CODING SYSTEM</a>
         <a>
             <div id="fontSizeWrapper">
                 <label for="fontSize">Font size</label>
@@ -29,20 +27,20 @@
     <ul class="tree js-treeview">
         {% recursetree categories %}
             <li>
-                <input type="checkbox" checked id="{{ node.id }}"/>
+                <input type="checkbox" id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()"
                 >{{ node.name }}</label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                     <div class="treeview__level-btns">
                         {% if  node.type != 'Part' %}
                             <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
-                            <div class="btn btn-default btn-sm level-remove"><span
-                                    class="fa fa-trash text-danger"></span>
+                            {#                            <div class="btn btn-default btn-sm level-remove"><span#}
+                            {#                                    class="fa fa-trash text-danger"></span>#}
+                            {#                            </div>#}
+                            <div id="formodalbody" class="btn btn-default btn-sm level-sub"><a
+                                    style="text-decoration: none"
+                                    onclick="" href="{% url 'coding:addsamelevel' node.id %}">ایجاد زیرگروه</a>
                             </div>
-                            <div class="btn btn-default btn-sm level-sub"><a style="text-decoration: none"
-                                                                             href="{% url 'coding:addsamelevel' node.id %}">Add
-                                Sub Level</a></div>
-
                         {% else %}
                             <button type="button" class="btn btn-light btn-sm" onclick="myFunction('{{ node.id }}')">
                                 <span class="fa fa-wpforms"></span>
@@ -97,18 +95,18 @@
                                     <td id="medm"></td>
                                     <td id="part"></td>
                                 </tr>
-
                                 </tbody>
                             </table>
                             <ul class="list-group">
                                 <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali</li>
-                                <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>
-                                <li class="list-group-item" style="font-weight: bold">End Date: 1402/05/17</li>
                                 <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>
                                 <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>
                                 <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>
                                 <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>
                                 <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>
+                                <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>
+                                <li class="list-group-item" style="font-weight: bold">End Date: 1402/05/17</li>
+
                             </ul>
                         </div>
 
@@ -118,10 +116,10 @@
                                 <div class="card-body">
                                     <p></p>
                                     <h5 class="card-title">8102312332434</h5>
-{#                                    <p class="card-text">Some quick example text to build on the card title and make up#}
-{#                                        the#}
-{#                                        bulk of the card's content.</p>#}
-{#                                    <a href="#" class="btn btn-primary">Go somewhere</a>#}
+                                    {#                                    <p class="card-text">Some quick example text to build on the card title and make up#}
+                                    {#                                        the#}
+                                    {#                                        bulk of the card's content.</p>#}
+                                    {#                                    <a href="#" class="btn btn-primary">Go somewhere</a>#}
                                 </div>
                             </div>
                         </div>
@@ -130,6 +128,32 @@
 
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="addingcontrol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-flex">
+                        <h5>آیا از ایجاد زیرگروه اطمینان دارید؟</h5>id: <p id="addidnum"></p>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                                {{ node.id }}
+                                <a href="" class="btn btn-primary">ایجاد زیرگروه</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -164,6 +188,14 @@
             })
         }
     </script>
+    <script>
+        function addingcontrol(node) {
+            console.log('salam');
+            var data = document.getElementById('formodalbody').innerHTML;
+            console.log(data);
+            $('#addingcontrol').modal('show');
+        }
+    </script>
 
 
     <script>
@@ -172,6 +204,6 @@
             console.log(loc);
         }
     </script>
-</body>
+    </body>
 {% endif %}
 </html>
