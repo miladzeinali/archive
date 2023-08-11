@@ -4,17 +4,19 @@ from django.http import JsonResponse
 
 
 def CategoryView(request):
-    categories = Category.objects.all()
-    context = {
-        'categories': categories,
-    }
-    return render(request, 'index2.html', context)
-
+    user = request.user
+    if user.is_authenticated:
+        categories = Category.objects.all()
+        context = {
+            'categories': categories,
+        }
+        return render(request, 'index2.html', context)
+    else:
+        return redirect('account:login')
 
 def AddSameLevel(request, id):
     node = Category.objects.get(id=id)
     child = node.get_children().last()
-    print(child)
     if node.type == 'ME':
         if not child:
             newname = 10000
@@ -49,9 +51,6 @@ def get_parent_node(request):
     me = node.parent.parent.parent.name
     med = node.parent.parent.name
     medm = node.parent.name
-    print(med)
-    print(medm)
-    print(part)
     sum = int(med)+int(medm)+int(part)
     if len(str(sum))<=5:
         sum = f'0{sum}'

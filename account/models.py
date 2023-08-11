@@ -4,11 +4,15 @@ from django.contrib.auth.models import User
 class Corporation(models.Model):
     name = models.CharField(max_length=60)
     manager = models.OneToOneField(User,on_delete=models.CASCADE,default=1)
+    def __str__(self):
+        return self.name
 
 class Occupation(models.Model):
     name = models.CharField(max_length=60)
     manager = models.OneToOneField(User,on_delete=models.CASCADE,default=1)
     corporation = models.OneToOneField(Corporation,on_delete=models.CASCADE,default=1)
+    def __str__(self):
+        return self.name
 
 class Userprofile(models.Model):
     name = models.CharField(max_length=50)
@@ -22,3 +26,5 @@ class Userprofile(models.Model):
     type = models.PositiveSmallIntegerField(choices=TYPE_CHOICE,default=4)
     user = models.OneToOneField(User,on_delete=models.CASCADE,default=1)
     occupation = models.OneToOneField(Occupation,on_delete=models.CASCADE,default=1)
+    def __str__(self):
+        return self.name

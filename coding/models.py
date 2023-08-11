@@ -29,9 +29,9 @@ class Category(MPTTModel):
     class MPTTMeta:
         order_insertaion_by = ['name']
 
-    # class Meta:
-    #     verbose_name = _("Category")
-    #     verbose_name_plural = _("Categories")
+    class Meta:
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
 
     def get_absolute_url(self):
         return reverse("store:category_list", args=[self.slug])

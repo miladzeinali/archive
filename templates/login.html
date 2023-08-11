@@ -26,12 +26,12 @@
                 <div class="d-flex justify-content-center">
                     <h3>ARCHIVE AND CODING SYSTEM</h3>
                 </div><br/>
-                <form action="{% url 'account:login' %}">
+                <form action="{% url 'account:login' %}" method="post">
                     {% csrf_token %}
                     <div class="content-account">
                         <div class="form-group">
                             <label for="email-phone" class="control-label font-weight-bold">شماره پرسنلی</label>
-                            <input type="email" id="email-phone" class="form-control" name="username" placeholder="icioc id code">
+                            <input type="text" id="email-phone" class="form-control" name="username" placeholder="icioc id code">
                         </div><br/>
                         <div class="form-group">
                             <label for="password" class="control-label font-weight-bold">رمز عبور</label>
