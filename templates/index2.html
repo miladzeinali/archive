@@ -11,35 +11,59 @@
         <link rel="stylesheet" href="{% static 'css/index2.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'js/main.js' %}">
+        <title> ICIOC ACS System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </head>
 
     <body>
     <div class="topnav">
         <a class="active">I3CH CODING SYSTEM</a>
-        <a>
-            <div id="fontSizeWrapper">
-                <label for="fontSize">Font size</label>
-                <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
-            </div>
+        <a id="MyClockDisplay" class="active clock" onload="showTime()"></a>
+        <a id="fontSizeWrapper" class="active">
+            <label for="fontSize">Font size</label>
+            <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
         </a>
-        <input type="text" placeholder="search...">
+        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} ({{ profile.user }}) عزیز خوش
+            آمدید </a>
     </div>
     <ul class="tree js-treeview">
         {% recursetree categories %}
             <li>
-                <input type="checkbox" {% if  not node.is_active  %} checked {% endif %}  id="{{ node.id }}"/>
-                <label class="tree_label" for="{{ node.id }}" onclick="mylocation()"
-                >{{ node.name }}</label>
+                <input type="checkbox" {% if  not node.is_active %} checked {% endif %}  id="{{ node.id }}"/>
+                <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
+                    {% if node.type == "Area" %}
+                        <span class="fa fa-map-pin"></span>
+                    {% elif node.type == 'ME' %}
+                        <span class="fa fa-cogs"></span>
+                    {% elif node.type == 'MED' %}
+                        <span class="fa fa-cubes"></span>
+                    {% elif node.type == 'MEDM' %}
+                        <span class="fa fa-cube"></span>
+                    {% elif node.type == 'Part' %}
+                        <span class="fa fa-cog"></span>
+                    {% elif node.type == 'Zone' %}
+                        <span class="fa fa-building"></span>
+                    {% else %}
+                        <span class="fa fa-home"></span>
+                    {% endif %}
+                    {{ node.name }}
+                </label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                     <div class="treeview__level-btns">
                         {% if  node.type != 'Part' %}
                             <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
-                            {#                            <div class="btn btn-default btn-sm level-remove"><span#}
-                            {#                                    class="fa fa-trash text-danger"></span>#}
-                            {#                            </div>#}
                             <div id="formodalbody" class="btn btn-default btn-sm level-sub"><a
                                     style="text-decoration: none"
                                     onclick="" href="{% url 'coding:addsamelevel' node.id %}">ایجاد زیرگروه</a>
+                                {% if node.type == 'MEDM' %}
+                                    <button type="button" class="btn btn-light btn-sm"
+                                            onclick="myFunction('{{ node.id }}')">
+                                        <span class="fa fa-wpforms"></span>
+                                    </button>
+                                {% endif %}
                             </div>
                         {% else %}
                             <button type="button" class="btn btn-light btn-sm" onclick="myFunction('{{ node.id }}')">
@@ -98,14 +122,15 @@
                                 </tbody>
                             </table>
                             <ul class="list-group">
-                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali</li>
+                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco Corp.)</li>
                                 <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>
                                 <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>
                                 <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>
                                 <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>
                                 <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>
                                 <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>
-                                <li class="list-group-item" style="font-weight: bold">End Date: 1402/05/17</li>
+                                <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>
+                                <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>
 
                             </ul>
                         </div>
@@ -114,12 +139,11 @@
                             <div class="card" style="width: 18rem;">
                                 <img src="{% static 'image/img-1.jpg ' %}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <p></p>
-                                    <h5 class="card-title">8102312332434</h5>
-                                    {#                                    <p class="card-text">Some quick example text to build on the card title and make up#}
-                                    {#                                        the#}
-                                    {#                                        bulk of the card's content.</p>#}
-                                    {#                                    <a href="#" class="btn btn-primary">Go somewhere</a>#}
+                                    <p>Rai. Code:8102312332434</p>
+
+                                    <a href="#">DRWG Download (pdf)</a><br/>
+                                    <a href="#">DRWG SolidWorks Files (zip)</a><br/>
+                                    <a href="#">Material Analyze Report (pdf)</a>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +220,31 @@
             $('#addingcontrol').modal('show');
         }
     </script>
+    <script>
+        function showTime() {
+            var date = new Date();
+            var h = date.getHours(); // 0 - 23
+            var m = date.getMinutes(); // 0 - 59
+            var s = date.getSeconds(); // 0 - 59
+            var session = "AM";
+            if (h == 0) {
+                h = 12;
+            }
+            if (h > 12) {
+                h = h - 12;
+                session = "PM";
+            }
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
+            var time = h + ":" + m + ":" + s + " " + session;
+            document.getElementById("MyClockDisplay").innerText = time;
+            document.getElementById("MyClockDisplay").textContent = time;
+            setTimeout(showTime, 1000);
+        }
 
+        showTime();
+    </script>
 
     <script>
         function mylocation() {

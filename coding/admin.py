@@ -3,6 +3,7 @@ from .models import *
 from mptt.admin import MPTTModelAdmin
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id','name','parent')
+    search_fields = ('name',)
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Product,admin.ModelAdmin)

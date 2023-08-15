@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from coding.models import *
 from django.http import JsonResponse
+from account.models import Userprofile
 
 
 def CategoryView(request):
     user = request.user
     if user.is_authenticated:
+        profile = Userprofile.objects.get(user=user)
         categories = Category.objects.all()
         context = {
             'categories': categories,
+            'profile': profile,
         }
         return render(request, 'index2.html', context)
     else:
@@ -45,17 +48,36 @@ def AddSameLevel(request, id):
 def get_parent_node(request):
     node_id = request.GET.get('node_id')
     node = Category.objects.get(id=node_id)
-    part = node.name
-    father = node.parent.parent.parent.parent.parent.parent.name
-    zone = node.parent.parent.parent.parent.parent.name
-    area = node.parent.parent.parent.parent.name
-    me = node.parent.parent.parent.name
-    med = node.parent.parent.name
-    medm = node.parent.name
-    sum = int(med) + int(medm) + int(part)
-    if len(str(sum)) <= 5:
-        sum = f'0{sum}'
-    context = {'part': part, 'zone': zone, 'area': area,
-               'me': me, 'med': med,
-               'medm': medm, 'sum': sum, 'father': father}
-    return JsonResponse(context)
+    if node.type == 'Part':
+        part = node.name
+        father = node.parent.parent.parent.parent.parent.parent.name
+        zone = node.parent.parent.parent.parent.parent.name
+        area = node.parent.parent.parent.parent.name
+        me = node.parent.parent.parent.name
+        med = node.parent.parent.name
+        medm = node.parent.name
+        sum = int(med) + int(medm) + int(part)
+        if len(str(sum)) <= 5:
+            sum = f'0{sum}'
+        context = {'part': part, 'zone': zone, 'area': area,
+                   'me': me, 'med': med,
+                   'medm': medm, 'sum': sum, 'father': father}
+        return JsonResponse(context)
+    elif node.type == 'MEDM':
+        part = 0
+        father = node.parent.parent.parent.parent.parent.name
+        zone = node.parent.parent.parent.parent.name
+        area = node.parent.parent.parent.name
+        me = node.parent.parent.name
+        med = node.parent.name
+        medm = node.name
+        sum = int(med) + int(medm) + int(part)
+        if len(str(sum)) <= 5:
+            sum = f'0{sum}'
+        context = {'part': part, 'zone': zone, 'area': area,
+                   'me': me, 'med': med,
+                   'medm': medm, 'sum': sum, 'father': father}
+        return JsonResponse(context)
+
+
+
