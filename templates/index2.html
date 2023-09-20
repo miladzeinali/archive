@@ -20,19 +20,26 @@
 
     <body>
     <div class="topnav">
-        <a class="active">I3CH CODING SYSTEM</a>
+        <a class="active" href="{% url 'coding:category' %}">I3CH CODING SYSTEM</a>
         <a id="MyClockDisplay" class="active clock" onload="showTime()"></a>
         <a id="fontSizeWrapper" class="active">
             <label for="fontSize">Font size</label>
             <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
         </a>
-        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} ({{ profile.user }}) عزیز خوش
-            آمدید </a>
+        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} {{ profile.user }}
+             </a>
+        <div class="search-container">
+            <form action="{% url 'coding:search' %}" method="post" dir="rtl">
+                {% csrf_token %}
+                <input type="text" placeholder="جستجو..." name="search">
+            </form>
+        </div>
     </div>
     <ul class="tree js-treeview">
         {% recursetree categories %}
             <li>
-                <input type="checkbox" {% if  not node.is_active %} checked {% endif %}  id="{{ node.id }}"/>
+                <input type="checkbox" {% if node.type == "Factory" %} checked {% endif %}
+                       id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
                     {% if node.type == "Area" %}
                         <span class="fa fa-map-pin"></span>
@@ -49,7 +56,8 @@
                     {% else %}
                         <span class="fa fa-home"></span>
                     {% endif %}
-                    {{ node.name }}
+                    {{ node.name }}{% if node.caption %}-{{ node.caption }}{% endif %}
+
                 </label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                     <div class="treeview__level-btns">
@@ -122,7 +130,8 @@
                                 </tbody>
                             </table>
                             <ul class="list-group">
-                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco Corp.)</li>
+                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco Corp.)
+                                </li>
                                 <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>
                                 <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>
                                 <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>
@@ -135,18 +144,18 @@
                             </ul>
                         </div>
 
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                                <img src="{% static 'image/img-1.jpg ' %}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <p>Rai. Code:8102312332434</p>
-
-                                    <a href="#">DRWG Download (pdf)</a><br/>
-                                    <a href="#">DRWG SolidWorks Files (zip)</a><br/>
-                                    <a href="#">Material Analyze Report (pdf)</a>
-                                </div>
-                            </div>
-                        </div>
+{#                        <div class="col">#}
+{#                            <div class="card" style="width: 18rem;">#}
+{#                                <img src="{% static 'image/img-1.jpg ' %}" class="card-img-top" alt="...">#}
+{#                                <div class="card-body">#}
+{#                                    <p>Rai. Code:8102312332434</p>#}
+{##}
+{#                                    <a href="#">DRWG Download (pdf)</a><br/>#}
+{#                                    <a href="#">DRWG SolidWorks Files (zip)</a><br/>#}
+{#                                    <a href="#">Material Analyze Report (pdf)</a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </div>
 

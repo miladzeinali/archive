@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load mptt_tags %}
+{% if user.is_authenticated %}
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'js/main.js' %}">
+        <title>ICIOC ACS System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+
+    <body>
+    <div class="topnav">
+        <a class="active" href="{% url 'coding:category' %}">I3CH CODING SYSTEM</a>
+        <a id="MyClockDisplay" class="active clock" onload="showTime()"></a>
+        <a id="fontSizeWrapper" class="active">
+            <label for="fontSize">Font size</label>
+            <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
+        </a>
+        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} ({{ profile.user }}) عزیز خوش
+            آمدید </a>
+        <div class="search-container">
+            <form action="{% url 'coding:search' %}" method="post" dir="rtl">
+                {% csrf_token %}
+                <input type="text" placeholder="جستجو..." name="search">
+            </form>
+        </div>
+    </div>
+    <ul class="tree js-treeview">
+        {% recursetree categories %}
+            <li>
+                <input type="checkbox"
+                        {% if node.type == 'Zone' or node.type == 'ME' or node.type == 'Area' or node.type == 'Factory' or node.type == 'MED' or node.type == 'MEDM' %}
+                       checked
+                        {% endif %}  id="{{ node.id }}"/>
+                <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
+                    {% if node.type == "Area" %}
+                        <span class="fa fa-map-pin"></span>
+                    {% elif node.type == 'ME' %}
+                        <span class="fa fa-cogs"></span>
+                    {% elif node.type == 'MED' %}
+                        <span class="fa fa-cubes"></span>
+                    {% elif node.type == 'MEDM' %}
+                        <span class="fa fa-cube"></span>
+                    {% elif node.type == 'Part' %}
+                        <span class="fa fa-cog"></span>
+                    {% elif node.type == 'Zone' %}
+                        <span class="fa fa-building"></span>
+                    {% else %}
+                        <span class="fa fa-home"></span>
+                    {% endif %}
+                    {{ node.name }}{% if newnode.caption %}{{ newnode.caption }}{% endif %}
+
+
+                </label>
+                {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
+                    <div class="treeview__level-btns">
+                        {% if  node.type != 'Part' %}
+                            <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
+                            <div id="formodalbody" class="btn btn-default btn-sm level-sub"><a
+                                    style="text-decoration: none"
+                                    onclick="" href="{% url 'coding:addsamelevel' node.id %}">ایجاد زیرگروه</a>
+                                {% if node.type == 'MEDM' %}
+                                    <button type="button" class="btn btn-light btn-sm"
+                                            onclick="myFunction('{{ node.id }}')">
+                                        <span class="fa fa-wpforms"></span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <button type="button" class="btn btn-light btn-sm" onclick="myFunction('{{ node.id }}')">
+                                <span class="fa fa-wpforms"></span>
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex">
+                        <h5 id="father"></h5>
+                        <h5>-</h5>
+                        <h5 id="parenttitle"></h5>
+                        <h5>-</h5>
+                        <h5 id="exampleModalLabel"></h5>
+                    </div>
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>ZONE</th>
+                                    <th>AREA</th>
+                                    <th>ME</th>
+                                    <th>MED</th>
+                                    <th>MEDM</th>
+                                    <th>PART</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="zone"></td>
+                                    <td id="area"></td>
+                                    <td id="me"></td>
+                                    <td id="med"></td>
+                                    <td id="medm"></td>
+                                    <td id="part"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <ul class="list-group">
+                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco Corp.)
+                                </li>
+                                <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>
+                                <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>
+                                <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>
+                                <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>
+                                <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>
+                                <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>
+                                <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>
+                                <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>
+
+                            </ul>
+                        </div>
+
+{#                        <div class="col">#}
+{#                            <div class="card" style="width: 18rem;">#}
+{#                                <img src="{% static 'image/img-1.jpg ' %}" class="card-img-top" alt="...">#}
+{#                                <div class="card-body">#}
+{#                                    <p>Rai. Code:8102312332434</p>#}
+{##}
+{#                                    <a href="#">DRWG Download (pdf)</a><br/>#}
+{#                                    <a href="#">DRWG SolidWorks Files (zip)</a><br/>#}
+{#                                    <a href="#">Material Analyze Report (pdf)</a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addingcontrol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-flex">
+                        <h5>آیا از ایجاد زیرگروه اطمینان دارید؟</h5>id: <p id="addidnum"></p>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                                {{ node.id }}
+                                <a href="" class="btn btn-primary">ایجاد زیرگروه</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+
+    <!-- Boostrap Js  -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/index2.js' %}"></script>
+    <script>
+        function myFunction(nodeId) {
+            console.log(nodeId);
+            $.ajax({
+                url: '/get_parent_node/',
+                type: 'GET',
+                data: {
+                    'node_id': nodeId
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#part').text(response.part);
+                    $('#father').text(response.father);
+                    $('#zone').text(response.zone);
+                    $('#area').text(response.area);
+                    $('#me').text(response.me);
+                    $('#med').text(response.med);
+                    $('#medm').text(response.medm);
+                    $('#parenttitle').text(response.me);
+                    $('#exampleModalLabel').text(response.sum);
+                    $('#exampleModal').modal('show');
+                }
+            })
+        }
+    </script>
+    <script>
+        function addingcontrol(node) {
+            console.log('salam');
+            var data = document.getElementById('formodalbody').innerHTML;
+            console.log(data);
+            $('#addingcontrol').modal('show');
+        }
+    </script>
+    <script>
+        function showTime() {
+            var date = new Date();
+            var h = date.getHours(); // 0 - 23
+            var m = date.getMinutes(); // 0 - 59
+            var s = date.getSeconds(); // 0 - 59
+            var session = "AM";
+            if (h == 0) {
+                h = 12;
+            }
+            if (h > 12) {
+                h = h - 12;
+                session = "PM";
+            }
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
+            var time = h + ":" + m + ":" + s + " " + session;
+            document.getElementById("MyClockDisplay").innerText = time;
+            document.getElementById("MyClockDisplay").textContent = time;
+            setTimeout(showTime, 1000);
+        }
+
+        showTime();
+    </script>
+
+    <script>
+        function mylocation() {
+            var loc = document.getElementById('location');
+            console.log(loc);
+        }
+    </script>
+    </body>
+{% endif %}
+</html>

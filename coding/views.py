@@ -21,28 +21,62 @@ def CategoryView(request):
 def AddSameLevel(request, id):
     node = Category.objects.get(id=id)
     child = node.get_children().last()
+    new = []
     if node.type == 'ME':
         if not child:
             newname = 10000
         else:
             newname = int(child.name) + 10000
-        name = f'0{newname}'
-        Category.objects.create(name=name, slug=name, parent=node, type='MED')
+        if newname < 100000:
+            name = f'0{newname}'
+        else:
+            name = newname
+        new = Category.objects.create(name=name, slug=name, parent=node, type='MED')
     elif node.type == 'MED':
         if not child:
             newname = 100
         else:
             newname = int(child.name) + 100
-        name = f'0{newname}'
-        Category.objects.create(name=name, slug=name, parent=node, type='MEDM')
+        if newname >= 100:
+            name = newname
+        else:
+            name = f'0{newname}'
+        new = Category.objects.create(name=name, slug=name, parent=node, type='MEDM')
     elif node.type == 'MEDM':
         if not child:
             newname = 1
         else:
             newname = int(child.name) + 1
-        name = f'0{newname}'
-        Category.objects.create(name=name, slug=name, parent=node, type='Part')
-    return redirect('coding:category')
+        if newname >= 10:
+            name = newname
+        else:
+            name = f'0{newname}'
+        new = Category.objects.create(name=name, slug=name, parent=node, type='Part')
+    return redirect('coding:addingredirect', new.id)
+
+
+def AddRedirect(request, obj):
+    user = request.user
+    if user.is_authenticated:
+        profile = Userprofile.objects.get(user=user)
+        newnode = Category.objects.get(id=obj)
+        family = newnode.get_family()
+        return render(request, 'newnode.html', {'newnode': newnode, 'categories': family, 'profile': profile})
+    else:
+        return redirect('account:login')
+
+
+def Search(request):
+    try:
+        user = request.user
+        if user.is_authenticated:
+            query = request.POST['search']
+            profile = Userprofile.objects.get(user=user)
+            newnode = Category.objects.get(name__contains=query, type='ME')
+            family = newnode.get_family()
+            return render(request, 'newnode.html', {'categories': family, 'newnode': newnode, 'profile': profile})
+    except:
+        return redirect('coding:category')
 
 
 def get_parent_node(request):
@@ -56,9 +90,7 @@ def get_parent_node(request):
         me = node.parent.parent.parent.name
         med = node.parent.parent.name
         medm = node.parent.name
-        sum = int(med) + int(medm) + int(part)
-        if len(str(sum)) <= 5:
-            sum = f'0{sum}'
+        sum = f'0{int(med) + int(medm) + int(part)}'
         context = {'part': part, 'zone': zone, 'area': area,
                    'me': me, 'med': med,
                    'medm': medm, 'sum': sum, 'father': father}
@@ -71,13 +103,8 @@ def get_parent_node(request):
         me = node.parent.parent.name
         med = node.parent.name
         medm = node.name
-        sum = int(med) + int(medm) + int(part)
-        if len(str(sum)) <= 5:
-            sum = f'0{sum}'
+        sum = f'0{int(med) + int(medm) + int(part)}'
         context = {'part': part, 'zone': zone, 'area': area,
                    'me': me, 'med': med,
                    'medm': medm, 'sum': sum, 'father': father}
         return JsonResponse(context)
-
-
-
