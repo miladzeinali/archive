@@ -74,7 +74,7 @@ def Search(request):
             profile = Userprofile.objects.get(user=user)
             newnode = Category.objects.get(name__contains=query, type='ME')
             family = newnode.get_family()
-            return render(request, 'newnode.html', {'categories': family, 'newnode': newnode, 'profile': profile})
+            return render(request, 'searchresult.html', {'categories': family, 'newnode': newnode, 'profile': profile})
     except:
         return redirect('coding:category')
 
@@ -108,3 +108,24 @@ def get_parent_node(request):
                    'me': me, 'med': med,
                    'medm': medm, 'sum': sum, 'father': father}
         return JsonResponse(context)
+
+
+def Caption(request):
+    node_id = request.GET.get('node_id')
+    node = Category.objects.get(id=node_id)
+    parent = node.parent.name
+    name = node.name
+    type = node.type
+    context = {'name': name, 'parent': parent, 'nodeid': node_id, 'type': type}
+    return JsonResponse(context)
+
+
+def UpdateCaption(request):
+    caption = request.POST['caption']
+    id = request.POST['id']
+    node = Category.objects.get(id=id)
+    node.caption = caption
+    if not caption:
+        node.caption = None
+    node.save()
+    return redirect('coding:category')
