@@ -121,11 +121,16 @@ def Caption(request):
 
 
 def UpdateCaption(request):
+    user = request.user
     caption = request.POST['caption']
     id = request.POST['id']
     node = Category.objects.get(id=id)
+    parent_name = node.parent.name
     node.caption = caption
     if not caption:
         node.caption = None
     node.save()
-    return redirect('coding:category')
+    profile = Userprofile.objects.get(user=user)
+    newnode = Category.objects.get(name__contains=parent_name, type='ME')
+    family = newnode.get_family()
+    return render(request, 'searchresult.html', {'categories': family, 'newnode': newnode, 'profile': profile})
