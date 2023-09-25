@@ -2,8 +2,7 @@ from django.contrib import admin
 from .models import *
 from mptt.admin import MPTTModelAdmin
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id','name','parent','type')
-    search_fields = ('name',)
+    list_display = ('id','name','parent','type','caption')
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Product,admin.ModelAdmin)

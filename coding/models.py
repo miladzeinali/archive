@@ -27,6 +27,9 @@ class Category(MPTTModel):
     )
     type = models.CharField(choices=type_choice, max_length=10, default='assem')
     caption = models.CharField(max_length=35,null=True,blank=True)
+    drawn = models.CharField(max_length=35,null=True,blank=True)
+    checker = models.CharField(max_length=35,null=True,blank=True)
+    approve = models.CharField(max_length=35,null=True,blank=True)
 
     class MPTTMeta:
         order_insertaion_by = ['name']

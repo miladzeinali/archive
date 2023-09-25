@@ -39,7 +39,11 @@
         {% recursetree categories %}
             <li>
                 <input type="checkbox"
+<<<<<<< HEAD
                         {% if node.type == 'Zone' or node.type == 'ME' or node.type == 'Area' or node.type == 'Factory' %}
+=======
+                        {% if node.type == 'Zone' or node.type == 'ME' or node.type == 'Area' or node.type == 'Factory' or node.type == 'MED' or node.type == 'MEDM' %}
+>>>>>>> 3d84b63b5dffb44c7d4ba1bc6136d306ae6f7ca5
                        checked
                         {% endif %}  id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
