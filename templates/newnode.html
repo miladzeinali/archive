@@ -68,7 +68,7 @@
                             <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
                             <div id="formodalbody" class="btn btn-default btn-sm level-sub"><a
                                     style="text-decoration: none"
-                                    onclick="" href="{% url 'coding:addsamelevel' node.id %}">ایجاد زیرگروه</a>
+                                    onclick="AddingNode({{ node.id }})">ایجاد زیرگروه</a>
                                 {% if node.type == 'MEDM' %}
                                     <button type="button" class="btn btn-light btn-sm"
                                             onclick="myFunction('{{ node.id }}')">
@@ -190,7 +190,40 @@
 
         </div>
     </div>
+        <div class="modal fade" id="AddingNode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-flex">
+                        <h5>از ایجاد زیرگروه برای این گره اطمینان دارید؟</h5>
+                    </div>
+                </div>
+                <form method="post" action="{% url 'coding:addsamelevel' %}">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                {% csrf_token %}
+                                <div class="card" style="width: 18rem;">
+                                    <label for="recipient-name" class="col-form-label">Parent:</label>
+                                    <p id="nodeparentadd" style="font-weight: bold"></p>
+                                </div>
+                                <input type="text" id="idvalueadd" name="id" value="" hidden="hidden">
+                            </div>
+                            <div class="col">
+                                <div class="card" style="width: 18rem;">
+                                    <label for="recipient-name" class="col-form-label">MED:</label>
+                                    <p id="nodenameadd" style="font-weight: bold"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success btn-sm">ایجاد زیرگروه</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
 
@@ -232,6 +265,25 @@
             $('#addingcontrol').modal('show');
         }
     </script>
+        <script>
+        function AddingNode(nodeId) {
+            $.ajax({
+                url: '/addcontrol/',
+                type: 'GET',
+                data: {
+                    'node_id': nodeId
+                },
+                success: function (response) {
+                    $('#nodenameadd').text(response.name);
+                    $('#nodeparentadd').text(response.parent);
+                    $('#idvalueadd').val(response.nodeid);
+                    $('#nodetypeadd').val(response.type);
+                    $('#AddingNode').modal('show');
+                }
+            })
+        }
+    </script>
+
     <script>
         function showTime() {
             var date = new Date();
