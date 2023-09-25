@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{% static 'css/index2.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'js/main.js' %}">
-        <title> ICIOC ACS System</title>
+        <title>ICIOC ACS System</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,8 +26,8 @@
             <label for="fontSize">Font size</label>
             <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
         </a>
-        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} {{ profile.user }}
-             </a>
+        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} ({{ profile.user }}) عزیز خوش
+            آمدید </a>
         <div class="search-container">
             <form action="{% url 'coding:search' %}" method="post" dir="rtl">
                 {% csrf_token %}
@@ -38,8 +38,10 @@
     <ul class="tree js-treeview">
         {% recursetree categories %}
             <li>
-                <input type="checkbox" {% if node.type == "Factory" or node.type == "Zone" %} checked {% endif %}
-                       id="{{ node.id }}"/>
+                <input type="checkbox"
+                        {% if node.type == 'Zone' or node.type == 'ME' or node.type == 'Area' or node.type == 'Factory' %}
+                       checked
+                        {% endif %}  id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
                     {% if node.type == "Area" %}
                         <span class="fa fa-map-pin"></span>
@@ -56,7 +58,8 @@
                     {% else %}
                         <span class="fa fa-home"></span>
                     {% endif %}
-                    {{ node.name }}{% if node.caption %}-{{ node.caption }}{% endif %}
+                    {{ node.name }}{% if newnode.caption %}{{ newnode.caption }}{% endif %}
+
 
                 </label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}

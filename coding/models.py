@@ -17,6 +17,7 @@ class Category(MPTTModel):
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
     is_active = models.BooleanField(default=True)
     type_choice = (
+        ('Factory','Factory'),
         ('Zone', 'Zone'),
         ('Area', 'Area'),
         ('ME', 'ME'),
@@ -25,6 +26,7 @@ class Category(MPTTModel):
         ('Part', 'Part'),
     )
     type = models.CharField(choices=type_choice, max_length=10, default='assem')
+    caption = models.CharField(max_length=35,null=True,blank=True)
 
     class MPTTMeta:
         order_insertaion_by = ['name']

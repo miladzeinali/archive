@@ -4,6 +4,8 @@ from .views import *
 app_name = 'coding'
 urlpatterns = [
     path('',CategoryView,name='category'),
+    path('addingcontrol/<obj>/',AddRedirect,name='addingredirect'),
     path('samelevel/<int:id>/',AddSameLevel,name='addsamelevel'),
     path('get_parent_node/',get_parent_node,name='get-parent-node'),
+    path('search/',Search,name='search')
 ]
