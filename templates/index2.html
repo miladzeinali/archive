@@ -57,7 +57,6 @@
                         <span class="fa fa-home"></span>
                     {% endif %}
                     {{ node.name }}{% if node.caption %}-{{ node.caption }}{% endif %}
-
                 </label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                     <div class="treeview__level-btns">
@@ -68,7 +67,7 @@
                                     onclick="AddingNode({{ node.id }})">
                                 <button class="btn btn-success btn-sm">ایجاد زیرگروه</button>
                             </a>
-                                {% if node.type == "MED" %}
+                                {% if node.type == "MED" or node.type == 'MEDM' or node.type == 'part' %}
                                     <button type="button" class="btn btn-info btn-sm"
                                             onclick="Caption({{ node.id }})">
                                         <span class="fa fa-quote-left"></span>
@@ -120,48 +119,42 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <div class="tab">
-                                <button class="tablinks" onmouseover="openCity(event,'London')">Informations</button>
-                            </div>
-                            <div id="London" class="tabcontent">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>ZONE</th>
-                                        <th>AREA</th>
-                                        <th>ME</th>
-                                        <th>MED</th>
-                                        <th>MEDM</th>
-                                        <th>PART</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td id="zone"></td>
-                                        <td id="area"></td>
-                                        <td id="me"></td>
-                                        <td id="med"></td>
-                                        <td id="medm"></td>
-                                        <td id="part"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                {#                                <ul class="list-group">#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco#}
-                                {#                                        Corp.)#}
-                                {#                                    </li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>#}
-                                {#                                    <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>#}
-                                {##}
-                                {#                                </ul>#}
-                            </div>
-
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>ZONE</th>
+                                    <th>AREA</th>
+                                    <th>ME</th>
+                                    <th>MED</th>
+                                    <th>MEDM</th>
+                                    <th>PART</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="zone"></td>
+                                    <td id="area"></td>
+                                    <td id="me"></td>
+                                    <td id="med"></td>
+                                    <td id="medm"></td>
+                                    <td id="part"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            {#                                <ul class="list-group">#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco#}
+                            {#                                        Corp.)#}
+                            {#                                    </li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>#}
+                            {##}
+                            {#                                </ul>#}
                         </div>
 
                         {#                        <div class="col">#}

@@ -132,7 +132,10 @@ def UpdateCaption(request):
         node.caption = None
     node.save()
     profile = Userprofile.objects.get(user=user)
-    newnode = Category.objects.get(name__contains=parent_name, type='ME')
+    try:
+        newnode = Category.objects.get(name__contains=parent_name, type='ME')
+    except:
+        newnode = Category.objects.get(name__contains=parent_name, type='MEDM')
     family = newnode.get_family()
     return render(request, 'searchresult.html', {'categories': family,
                                                  'newnode': newnode, 'profile': profile})
