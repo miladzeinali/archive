@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{% static 'css/index2.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'js/main.js' %}">
-        <title>ICIOC ACS System</title>
+        <title> ICIOC ACS System</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,8 +26,8 @@
             <label for="fontSize">Font size</label>
             <input type="range" value="1" id="fontSize" step="0.5" min="0.5" max="5"/>
         </a>
-        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} ({{ profile.user }}) عزیز خوش
-            آمدید </a>
+        <a style="margin-right: 0px"> {{ profile.name }} {{ profile.last_name }} {{ profile.user }}
+        </a>
         <div class="search-container">
             <form action="{% url 'coding:search' %}" method="post" dir="rtl">
                 {% csrf_token %}
@@ -39,9 +39,9 @@
         {% recursetree categories %}
             <li>
                 <input type="checkbox"
-                        {% if node.type == 'Zone' or node.type == 'ME' or node.type == 'Area' or node.type == 'Factory' %}
-                       checked
-                        {% endif %}  id="{{ node.id }}"/>
+                        {% if node.type == "Factory" or node.type == 'Zone' or node.type == 'Area' or node.type == 'ME' %}
+                       checked {% endif %}
+                       id="{{ node.id }}"/>
                 <label class="tree_label" for="{{ node.id }}" onclick="mylocation()">
                     {% if node.type == "Area" %}
                         <span class="fa fa-map-pin"></span>
@@ -58,10 +58,7 @@
                     {% else %}
                         <span class="fa fa-home"></span>
                     {% endif %}
-                    {{ node.name }}{% if node.caption %}-{{ node.caption }}
-                    {% endif %}
-
-
+                    {{ node.name }}{% if node.caption %}-{{ node.caption }}{% endif %}
                 </label>
                 {% if node.type == 'Part' or node.type == 'MED' or node.type == 'MEDM' or node.type == 'ME' %}
                     <div class="treeview__level-btns">
@@ -69,10 +66,10 @@
                             <div class="btn btn-default btn-sm level-add"><span class="fa fa-plus"></span></div>
                             <div id="formodalbody" class="btn btn-default btn-sm level-sub"><a
                                     style="text-decoration: none"
-                                    onclick="" href="{% url 'coding:addsamelevel' node.id %}">
+                                    onclick="AddingNode({{ node.id }})">
                                 <button class="btn btn-success btn-sm">ایجاد زیرگروه</button>
                             </a>
-                                {% if node.type == "MED" %}
+                                {% if node.type == "MED" or node.type == 'MEDM' or node.type == 'part' %}
                                     <button type="button" class="btn btn-info btn-sm"
                                             onclick="Caption({{ node.id }})">
                                         <span class="fa fa-quote-left"></span>
@@ -93,6 +90,11 @@
                             <button type="button" class="btn btn-info btn-sm" onclick="myFunction('{{ node.id }}')">
                                 <span class="fa fa-wpforms"></span>
                                 DRWG.Code
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm"
+                                    onclick="Caption({{ node.id }})">
+                                <span class="fa fa-quote-left"></span>
+                                Caption
                             </button>
                         {% endif %}
                     </div>
@@ -146,24 +148,27 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <ul class="list-group">
-                                <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco Corp.)
-                                </li>
-                                <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>
-                                <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>
-                                <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>
-                                <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>
-                                <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>
-                                <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>
-                                <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>
-                                <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>
-
-                            </ul>
+                            {#                                <ul class="list-group">#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">User: Milad Zeinali (Apco#}
+                            {#                                        Corp.)#}
+                            {#                                    </li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Check: Aref Khajehi</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Approve: Saeed Ravanan</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Material: St37 (1.0037)</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Weight: 953 Kg</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Rai.Code: 8102312332434</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Start Date: 1402/05/14</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Status: End (1402/05/17)</li>#}
+                            {#                                    <li class="list-group-item" style="font-weight: bold">Last Edition: 1402/05/22</li>#}
+                            {##}
+                            {#                                </ul>#}
                         </div>
+
 
                         {#                        <div class="col">#}
                         {#                            <div class="card" style="width: 18rem;">#}
                         {#                                <img src="{% static 'image/img-1.jpg ' %}" class="card-img-top" alt="...">#}
+                        {#                                <img src="{% static 'image/large.png ' %}" class="card-img-top" alt="...">#}
                         {#                                <div class="card-body">#}
                         {#                                    <p>Rai. Code:8102312332434</p>#}
                         {##}
@@ -186,9 +191,8 @@
                 <div class="modal-header">
                     <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="d-flex">
-                        <h5>آیا از ایجاد زیرگروه اطمینان دارید؟</h5>
+                        <h5>لطفا کپشن مرتبط با مشخصات زیر را وارد کنید</h5>
                     </div>
-
                 </div>
                 <form method="post" action="{% url 'coding:updatecaption' %}">
                     <div class="modal-body">
@@ -196,7 +200,7 @@
                             <div class="col">
 
                                 {% csrf_token %}
-                                <button type="submit" class="btn-block btn-primary ">آپدیت کپشن</button>
+                                <button type="submit" class="btn btn-outline-success btn-sm">آپدیت کپشن</button>
                                 <div class="card" style="width: 18rem;">
                                     <label for="recipient-name" class="col-form-label">Parent:</label>
                                     <p id="nodeparent" style="font-weight: bold"></p>
@@ -206,7 +210,7 @@
                             <div class="col">
                                 <input type="text" placeholder="caption" name="caption">
                                 <div class="card" style="width: 18rem;">
-                                    <label for="recipient-name" class="col-form-label">Name:</label>
+                                    <label for="recipient-name" class="col-form-label">MED:</label>
                                     <p id="nodename" style="font-weight: bold"></p>
                                 </div>
                             </div>
@@ -215,8 +219,40 @@
                 </form>
             </div>
         </div>
-
     </div>
+
+    <div class="modal fade" id="AddingNode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-flex">
+                        <h5>از ایجاد زیرگروه برای این گره اطمینان دارید؟</h5>
+                    </div>
+                </div>
+                <form method="post" action="{% url 'coding:addsamelevel' %}">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                {% csrf_token %}
+                                <div class="card" style="width: 18rem;">
+                                    <label for="recipient-name" class="col-form-label">Parent:</label>
+                                    <p id="nodeparentadd" style="font-weight: bold"></p>
+                                </div>
+                                <input type="text" id="idvalueadd" name="id" value="" hidden="hidden">
+                            </div>
+                            <div class="col">
+                                <div class="card" style="width: 18rem;">
+                                    <label for="recipient-name" class="col-form-label">MED:</label>
+                                    <p id="nodenameadd" style="font-weight: bold"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success btn-sm">ایجاد زیرگروه</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -271,6 +307,24 @@
         }
     </script>
     <script>
+        function AddingNode(nodeId) {
+            $.ajax({
+                url: '/addcontrol/',
+                type: 'GET',
+                data: {
+                    'node_id': nodeId
+                },
+                success: function (response) {
+                    $('#nodenameadd').text(response.name);
+                    $('#nodeparentadd').text(response.parent);
+                    $('#idvalueadd').val(response.nodeid);
+                    $('#nodetypeadd').val(response.type);
+                    $('#AddingNode').modal('show');
+                }
+            })
+        }
+    </script>
+    <script>
         function showTime() {
             var date = new Date();
             var h = date.getHours(); // 0 - 23
@@ -302,6 +356,22 @@
             console.log(loc);
         }
     </script>
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+
     </body>
 {% endif %}
 </html>

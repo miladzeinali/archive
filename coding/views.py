@@ -18,7 +18,8 @@ def CategoryView(request):
         return redirect('account:login')
 
 
-def AddSameLevel(request, id):
+def AddSameLevel(request):
+    id = request.POST['id']
     node = Category.objects.get(id=id)
     child = node.get_children().last()
     new = []
@@ -124,12 +125,32 @@ def UpdateCaption(request):
     caption = request.POST['caption']
     id = request.POST['id']
     node = Category.objects.get(id=id)
-    parent_name = node.parent.name
+    parentid = node.parent.id
     node.caption = caption
     if not caption:
         node.caption = None
     node.save()
     profile = Userprofile.objects.get(user=user)
-    newnode = Category.objects.get(name__contains=parent_name, type='ME')
-    family = newnode.get_family()
-    return render(request, 'searchresult.html', {'categories': family, 'newnode': newnode, 'profile': profile})
+    if node.type == 'ME':
+        family = node.get_family()
+    elif node.type == 'MED':
+        newnode = Category.objects.get(id=parentid)
+        family = newnode.get_family()
+    elif node.type == 'MEDM':
+        parentid = node.parent.parent.id
+        newnode = Category.objects.get(id=parentid)
+        family = newnode.get_family()
+    elif node.type == 'Part':
+        parnetid = node.parent.parent.parent.id
+        newnode = Category.objects.get(id=parnetid)
+        family = newnode.get_family()
+    return render(request, 'searchresult.html', {'categories': family, 'newnode': node, 'profile': profile})
+
+def AddingControl(request):
+    node_id = request.GET.get('node_id')
+    node = Category.objects.get(id=node_id)
+    parent = node.parent.name
+    name = node.name
+    type = node.type
+    context = {'name': name, 'parent': parent, 'nodeid': node_id, 'type': type}
+    return JsonResponse(context)
